@@ -1,4 +1,4 @@
-# React 19 (<abbr title="Release Canary">RC</abbr>)
+# React 19 (<abbr title="React Canary">RC</abbr>)
 
 ## Actions
 
