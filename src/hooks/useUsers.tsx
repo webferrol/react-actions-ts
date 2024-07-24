@@ -7,6 +7,11 @@ export function useUsers () {
   const [users, setUsers] = useState<User[]|undefined>()
   const [error, setError] = useState<string>()
 
+  const push = (value: string) => {
+    if (!users?.length) return
+    setUsers([...users, { id: window.crypto.randomUUID(), name: value }])
+  }
+
   useEffect(() => {
     startTransition(() => {
       getUsers()
@@ -18,6 +23,7 @@ export function useUsers () {
   return {
     error,
     isPending,
+    push,
     users
   }
 }

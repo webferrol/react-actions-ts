@@ -1,17 +1,12 @@
-import { FormEvent, useRef } from 'react'
+import { useRef, useActionState } from 'react'
 
 interface Props {
     onUserAdd: (value: string) => void
 }
 
 function UserForm ({ onUserAdd } : Props) {
-  const userInput = useRef<HTMLInputElement>(null)
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-
-    const formData = new FormData(e.currentTarget)
+  const handleUserAdd = async (_previousState: unknown, formData: FormData) => {
     const userValue = formData.get('user')
-
     if (typeof userValue === 'string') {
       if (userValue.trim().length) {
         onUserAdd(userValue)
@@ -22,8 +17,11 @@ function UserForm ({ onUserAdd } : Props) {
     }
   }
 
+  const [, submitAction] = useActionState(handleUserAdd)
+  const userInput = useRef<HTMLInputElement>(null)
+
   return (
-      <form onSubmit={handleSubmit}>
+      <form action={submitAction}>
         <label htmlFor="user">
           User
         </label>

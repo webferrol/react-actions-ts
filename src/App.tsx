@@ -4,10 +4,10 @@ import UserForm from './components/UserForm'
 import { useUsers } from './hooks/useUsers'
 
 function App () {
-  const { error, isPending, users } = useUsers()
+  const { error, isPending, push, users } = useUsers()
 
   const handleUserAdd = (value: string) => {
-    console.log(value)
+    push(value)
   }
 
   return (
