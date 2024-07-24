@@ -1,25 +1,22 @@
-import { FormEvent } from 'react'
+import MetaData from './components/MetaData'
 import ShowUsers from './components/ShowUsers'
+import UserForm from './components/UserForm'
 import { useUsers } from './hooks/useUsers'
 
 function App () {
   const { error, isPending, users } = useUsers()
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault()
+  const handleUserAdd = (value: string) => {
+    console.log(value)
   }
+
   return (
     <>
-      <title>Nuevos hooks: Actions</title>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="user">
-          User
-        </label>
-        <input type="text" id="user" name="user" />
-      </form>
-      { isPending && 'Cargando'}
+      <MetaData />
+      <UserForm onUserAdd={handleUserAdd} />
+      {isPending && 'Cargando'}
       {error}
-      { users && <ShowUsers users={users}/>}
+      {users && <ShowUsers users={users} />}
     </>
   )
 }
