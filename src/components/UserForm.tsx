@@ -4,9 +4,17 @@ interface Props {
     onUserAdd: (value: string) => void
 }
 
+const asyncFunction = async (value: string) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      return resolve(value)
+    }, 3000)
+  })
+}
+
 function UserForm ({ onUserAdd } : Props) {
   const handleUserAdd = async (_previousState: unknown, formData: FormData) => {
-    const userValue = formData.get('user')
+    const userValue = await asyncFunction(formData.get('user') as string)
     if (typeof userValue === 'string') {
       if (userValue.trim().length) {
         onUserAdd(userValue)
@@ -17,7 +25,7 @@ function UserForm ({ onUserAdd } : Props) {
     }
   }
 
-  const [, submitAction] = useActionState(handleUserAdd)
+  const [, submitAction, isPending] = useActionState(handleUserAdd)
   const userInput = useRef<HTMLInputElement>(null)
 
   return (
@@ -26,7 +34,7 @@ function UserForm ({ onUserAdd } : Props) {
           User
         </label>
         <input ref={userInput} type="text" id="user" name="user" />
-        <button>Añadir Usuario</button>
+        <button disabled={isPending}>Añadir Usuario</button>
       </form>
 
   )
