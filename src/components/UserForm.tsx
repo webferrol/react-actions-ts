@@ -1,4 +1,5 @@
 import { useRef, useActionState } from 'react'
+import ButtonSubmit from './ButtonSubmit'
 
 interface Props {
     onUserAdd: (value: string) => void
@@ -25,7 +26,7 @@ function UserForm ({ onUserAdd } : Props) {
     }
   }
 
-  const [, submitAction, isPending] = useActionState(handleUserAdd)
+  const [, submitAction] = useActionState(handleUserAdd)
   const userInput = useRef<HTMLInputElement>(null)
 
   return (
@@ -34,7 +35,7 @@ function UserForm ({ onUserAdd } : Props) {
           User
         </label>
         <input ref={userInput} type="text" id="user" name="user" />
-        <button disabled={isPending}>Añadir Usuario</button>
+        <ButtonSubmit />
       </form>
 
   )
