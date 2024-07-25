@@ -1,43 +1,37 @@
 import { useRef, useActionState } from 'react'
 import ButtonSubmit from './ButtonSubmit'
+import { asyncUserValueMock } from '../helpers/async-user-value-mock'
 
 interface Props {
-    onUserAdd: (value: string) => void
+  onUserAdd: (value: string) => void
 }
 
-const asyncFunction = async (value: string) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      return resolve(value)
-    }, 3000)
-  })
-}
-
-function UserForm ({ onUserAdd } : Props) {
-  const handleUserAdd = async (_previousState: unknown, formData: FormData) => {
-    const userValue = await asyncFunction(formData.get('user') as string)
-    if (typeof userValue === 'string') {
-      if (userValue.trim().length) {
-        onUserAdd(userValue)
-        if (userInput.current) {
-          userInput.current.value = ''
-        }
-      }
-    }
-  }
-
-  const [, submitAction] = useActionState(handleUserAdd)
+function UserForm ({ onUserAdd }: Props) {
   const userInput = useRef<HTMLInputElement>(null)
 
-  return (
-      <form action={submitAction}>
-        <label htmlFor="user">
-          User
-        </label>
-        <input ref={userInput} type="text" id="user" name="user" />
-        <ButtonSubmit />
-      </form>
+  const userAdd = async (_previousState: unknown, formData: FormData) => {
+    const userValue = formData.get('user')
+    const isUser = typeof userValue === 'string' && userValue.trim().length
+    if (!isUser) return
+    const userData = await asyncUserValueMock(userValue)
+    onUserAdd(userData)
+    if (userInput.current) {
+      userInput.current.value = ''
+    }
+    return 'Usuario añadido'
+  }
 
+  // const [state, formAction, isPending] = useActionState(fn, initialState, permalink?);
+  const [stateValue, formActionNewUser] = useActionState(userAdd)
+
+  return (
+    <form action={formActionNewUser}>
+      <label htmlFor="user">
+        User {stateValue}
+      </label>
+      <input ref={userInput} type="text" id="user" name="user" />
+      <ButtonSubmit />
+    </form>
   )
 }
 
