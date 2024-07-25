@@ -11,13 +11,17 @@ function App () {
   }
 
   return (
-    <>
+    <main>
       <MetaData />
-      <UserForm onUserAdd={handleUserAdd} />
+      <h1>Usuarios</h1>
+      <header>
+        <h2>Alta de usuarios</h2>
+        <UserForm onUserAdd={handleUserAdd} />
+      </header>
       {isPending && 'Cargando'}
       {error}
       {users && <ShowUsers users={users} />}
-    </>
+    </main>
   )
 }
 

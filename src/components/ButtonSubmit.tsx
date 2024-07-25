@@ -2,12 +2,11 @@ import { useFormStatus } from 'react-dom'
 
 function ButtonSubmit () {
   const { pending, data, method, action } = useFormStatus()
-  console.log(method, action)
+  console.log(method, action, data?.get('user'))
   return (
-        <>
-        <button disabled={pending}>Añadir Usuario</button>
-        {pending && `Añadiendo ${data.get('user')}`}
-        </>
+        <button disabled={pending} aria-busy={pending}>
+          { pending ? 'Añadiendo' : 'Añadir' }
+        </button>
   )
 }
 

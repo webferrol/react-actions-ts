@@ -26,11 +26,11 @@ function UserForm ({ onUserAdd }: PropsUserForm) {
 
   return (
     <form action={formActionNewUser}>
-      <label htmlFor="user">
-        User {stateValue}
-      </label>
-      <input ref={userInput} type="text" id="user" name="user" />
-      <ButtonSubmit />
+      <fieldset role="group">
+        <input ref={userInput} type="text" id="user" name="user" placeholder="Xurxo González" />
+        <ButtonSubmit />
+      </fieldset>
+        {stateValue && <article role="alert" aria-labelledby="user">Usuario añadido correctamente</article>}
     </form>
   )
 }
