@@ -9,7 +9,7 @@ export function useUsers () {
 
   const push = (value: string) => {
     if (!users?.length) return
-    setUsers([...users, { id: window.crypto.randomUUID(), name: value }])
+    setUsers([{ id: window.crypto.randomUUID(), name: value }, ...users])
   }
 
   useEffect(() => {
